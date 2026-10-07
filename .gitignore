@@ -5,3 +5,7 @@ results/
 *.pt
 *.npz
 .DS_Store
+
+# keep committed checkpoints
+!checkpoints/
+!checkpoints/*.pt

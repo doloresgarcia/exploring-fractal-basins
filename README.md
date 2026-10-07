@@ -87,3 +87,16 @@ The paper does not publish training hyperparameters or the linear-system code/ch
 optimiser (AdamW, lr 1e-3), and loop schedule here are reasonable choices, not the originals.
 The basin methodology (random orthonormal 2-plane via QR, grid [-1,1]², colour by settling
 time/correctness, basin entropy) follows the authors' companion repo `terrafying/fractal-basins-lab`.
+
+## Pretrained checkpoint
+
+`checkpoints/n4_f3_step79500.pt` — the 4×4 𝔽₃ solver (0.4 M params, 80k steps,
+~60% exact-solve on fresh fully-dense systems). Load and evaluate:
+
+```bash
+python eval_checkpoint.py checkpoints/n4_f3_step79500.pt --loops 24
+# -> token_acc≈0.80  exact_solve≈0.60  on fresh dense 4x4 F_3 systems
+```
+
+Regenerate its basin maps with `basins.py --run <dir>` (point it at a run dir whose
+`ckpt/` holds this file) then `make_figure5.py`.
