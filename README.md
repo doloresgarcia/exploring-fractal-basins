@@ -100,3 +100,26 @@ python eval_checkpoint.py checkpoints/n4_f3_step79500.pt --loops 24
 
 Regenerate its basin maps with `basins.py --run <dir>` (point it at a run dir whose
 `ckpt/` holds this file) then `make_figure5.py`.
+
+## Is it actually *fractal*? (quantitative test)
+
+Intricate ≠ fractal. `analyze_fractality.py` measures the **uncertainty exponent**
+α (Grebogi–McDonald final-state sensitivity: `f(ε) ∼ ε^α`, boundary box-dimension
+`D = 2 − α`) in the ε→0 limit, plus a boundary-centred **zoom sequence**.
+
+For the 4×4 𝔽₃ model (500k-point statistics, ε down to 1e-5):
+
+```
+α(ε→0) = 0.96   →   D = 2 − α ≈ 1.04
+local slope → ~1 as ε→0 ; boundary zoom ×1→×64 resolves to smooth curves
+```
+
+**Conclusion: the 4×4 basins are NOT a genuine fractal** — the boundaries are smooth
+(D ≈ 1), just many basins packed tightly together ("fragile", intricate, but not
+scale-invariant). The headline α≈0.8 you get from a naive fit is an artifact of the
+large-ε saturation regime. This is consistent with the paper's framing that fractality
+should *emerge with problem hardness* — the easy 4×4 is on the non-fractal side. The
+real test of the paper's central claim is whether a **harder, still-solved** system
+shows α staying below 1 as ε→0.
+
+![fractality test](figures/fractality_4x4.png)
