@@ -123,3 +123,18 @@ real test of the paper's central claim is whether a **harder, still-solved** sys
 shows α staying below 1 as ε→0.
 
 ![fractality test](figures/fractality_4x4.png)
+
+## Full-size 8×8 𝔽₃ attempt (negative result)
+
+A long run was made to chase the paper's exact 8×8 𝔽₃ setup, with the grokking-oriented
+recipe: 500k steps, loops sampled 4–28, weight decay 0.1 (matmul weights only), deep
+supervision, curriculum to 120k, learnable logit scale. 1× H100, ~16.7h, ~512M instances.
+
+**Result: it never learned** — hard (fully-dense) solve-rate stayed at chance
+(`loss ≈ ln 3`) across ~380k dense-phase steps; no grokking transition. The resulting
+basins are featureless (`frac_correct = 0`, basin entropy ≈ 0). The model consistently
+learns to copy directly-substitutable variables but not the mod-3 elimination for
+entangled core variables. Reproducing the paper's 8×8 result (their reported bifurcation
+at ~150k steps) therefore requires something not captured here — likely their specific
+(undisclosed) instance distribution / training recipe, or substantially more scale. The
+4×4 𝔽₃ reproduction above remains the solid, working result.
